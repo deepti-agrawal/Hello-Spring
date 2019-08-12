@@ -1,10 +1,7 @@
 package com.launchcode.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,9 +36,7 @@ public class HelloController {
 
     @RequestMapping(value="hello",method = RequestMethod.POST)
     @ResponseBody
-    public String helloPost(HttpServletRequest request){
-        String name = request.getParameter("name");
-        String language = request.getParameter("language");
+    public String helloPost(@RequestParam String name, @RequestParam String language){
         String message = createMessage(language);
         return "<h2>"+message+" "+name+"</h2>";
     }
@@ -60,16 +55,23 @@ public class HelloController {
 
     public static String createMessage(String language){
         String message="";
-        if (language.equals("English"))
-            message = "Hello";
-        else if (language.equals("Hindi"))
-            message = "नमस्ते";
-        else if (language.equals("French"))
-            message = "Bonjour";
-        else if (language.equals("German"))
-            message = "Hallo";
-        else if (language.equals("Russian"))
-            message = "Привет";
+        switch(language) {
+            case "English":
+                message = "Hello";
+                break;
+            case "Hindi":
+                message = "नमस्ते";
+                break;
+            case "French":
+                message = "Bonjour";
+                break;
+            case "German":
+                message = "Hallo";
+                break;
+            case "Russian":
+                message = "Привет";
+                break;
+        }
         return message;
     }
 }
